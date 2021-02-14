@@ -2,6 +2,8 @@ package com.vihanga.VihangaTestApi.student;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
+
 @Entity
 @Table
 public class Student {
@@ -20,17 +22,18 @@ public class Student {
     private String Name;
     private String Email;
     private LocalDate dob;
+    @Transient
     private int age;
 
     public Student() {
     }
 
-    public Student(Long id, String name, String email, LocalDate dob, int age) {
+    public Student(Long id, String name, String email, LocalDate dob) {
         this.id = id;
-        Name = name;
-        Email = email;
+        this.Name = name;
+        this.Email = email;
         this.dob = dob;
-        this.age = age;
+
     }
 
     public Student(Long id) {
@@ -44,7 +47,6 @@ public class Student {
                 ", Name='" + Name + '\'' +
                 ", Email='" + Email + '\'' +
                 ", dob=" + dob +
-                ", age=" + age +
                 '}';
     }
 
@@ -81,7 +83,7 @@ public class Student {
     }
 
     public int getAge() {
-        return age;
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
     public void setAge(int age) {
